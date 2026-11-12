@@ -5,6 +5,8 @@ import sys
 from .parser import inspect
 from .journal import Journal
 from .transport import capture
+from .ixbrl import DocumentError
+from .receive import Receiver
 
 
 def main():
@@ -18,6 +20,13 @@ def main():
     raw.add_argument('--method', default='GET')
     raw.add_argument('--body')
     raw.add_argument('--header', action='append', default=[])
+    facts = sub.add_parser('facts', help='接收一份文档修订的完整 iXBRL 事实集合')
+    facts.add_argument('source')
+    facts.add_argument('--state', default='var/facts')
+    facts.add_argument('--origin', default=None,
+                       help='来源标识，默认取 source 文件名')
+    facts.add_argument('--revision', default=None,
+                       help='来源修订标识，默认绑定内容 SHA-256 摘要')
     args = parser.parse_args()
     try:
         if args.command == 'capture':
@@ -31,6 +40,14 @@ def main():
             finally:
                 journal.close()
             result.update({'http_status': status, 'headers': response_headers})
+        elif args.command == 'facts':
+            payload = Path(args.source).read_bytes()
+            origin = args.origin or Path(args.source).name
+            receiver = Receiver(args.state)
+            try:
+                result = receiver.receive(payload, origin, args.revision)
+            finally:
+                receiver.close()
         else:
             result = inspect(Path(args.source).read_bytes())
         print(json.dumps(result, ensure_ascii=True, sort_keys=True))

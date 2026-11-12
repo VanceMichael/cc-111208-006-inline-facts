@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ix="http://www.xbrl.org/2013/inlineXBRL"
+      xmlns:xbrli="http://www.xbrl.org/2003/instance"
+      xmlns:xbrldi="http://xbrl.org/2006/xbrldi"
+      xmlns:ex="urn:synthetic:supplier"
+      xmlns:ex2="urn:synthetic:supplier-alt"
+      xmlns:iso="http://www.xbrl.org/2003/iso4217"
+      xmlns:ixt="urn:local:ixt"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<head><title>Synthetic supplier disclosure</title></head>
+<body>
+<ix:resources>
+  <xbrli:context id="c1">
+    <xbrli:entity><xbrli:identifier scheme="urn:synthetic">S1</xbrli:identifier></xbrli:entity>
+    <xbrli:period><xbrli:instant>2026-11-12</xbrli:instant></xbrli:period>
+  </xbrli:context>
+  <xbrli:context id="c2">
+    <xbrli:entity><xbrli:identifier scheme="urn:synthetic">S1</xbrli:identifier></xbrli:entity>
+    <xbrli:period><xbrli:startDate>2026-01-01</xbrli:startDate><xbrli:endDate>2026-06-30</xbrli:endDate></xbrli:period>
+    <xbrli:entity><xbrli:segment>
+      <xbrldi:explicitMember dimension="ex:region">ex:north</xbrldi:explicitMember>
+      <xbrldi:explicitMember dimension="ex:channel">ex:web</xbrldi:explicitMember>
+    </xbrli:segment></xbrli:entity>
+  </xbrli:context>
+  <xbrli:context id="c3">
+    <xbrli:entity><xbrli:identifier scheme="urn:synthetic">S1</xbrli:identifier></xbrli:entity>
+    <xbrli:period><xbrli:startDate>2026-01-01</xbrli:startDate><xbrli:endDate>2026-06-30</xbrli:endDate></xbrli:period>
+    <xbrli:entity><xbrli:segment>
+      <xbrldi:explicitMember dimension="ex:channel">ex:web</xbrldi:explicitMember>
+      <xbrldi:explicitMember dimension="ex:region">ex:north</xbrldi:explicitMember>
+    </xbrli:segment></xbrli:entity>
+  </xbrli:context>
+  <xbrli:unit id="u1"><xbrli:measure>iso:CNY</xbrli:measure></xbrli:unit>
+  <xbrli:unit id="u2">
+    <xbrli:divide>
+      <xbrli:unitNumerator><xbrli:measure>iso:CNY</xbrli:measure></xbrli:unitNumerator>
+      <xbrli:unitDenominator><xbrli:measure>iso:USD</xbrli:measure></xbrli:unitDenominator>
+    </xbrli:divide>
+  </xbrli:unit>
+  <xbrli:unit id="u3"><xbrli:measure>iso:USD</xbrli:measure><xbrli:measure>iso:CNY</xbrli:measure></xbrli:unit>
+</ix:resources>
+
+<p>Scaled bracket-style negative: 1.2 wan disclosed below.</p>
+<ix:nonFraction id="f1" name="ex:amount" contextRef="c1" unitRef="u1" decimals="0" scale="4" sign="-" format="ixt:num-dot-decimal">1.2</ix:nonFraction>
+<ix:nonFraction id="f2" name="ex:amount" contextRef="c1" unitRef="u1" decimals="0">9</ix:nonFraction>
+<ix:nonFraction id="f3" name="ex:amount" contextRef="c1" unitRef="u1" decimals="2">9.00</ix:nonFraction>
+
+<ix:nonFraction id="f4" name="ex:scaled" contextRef="c2" unitRef="u2" decimals="2" scale="3" format="ixt:num-comma-decimal">1.234,50</ix:nonFraction>
+<ix:nonFraction id="f5" name="ex:scaled" contextRef="c3" unitRef="u2" decimals="2" scale="3" format="ixt:num-comma-decimal">1.234,50</ix:nonFraction>
+
+<ix:nonFraction id="f6" name="ex:bracketed" contextRef="c1" unitRef="u1" decimals="2" format="ixt:num-dot-decimal">(1,234.50)</ix:nonFraction>
+<ix:nonFraction id="f7" name="ex:wordy" contextRef="c1" unitRef="u1" decimals="0" format="ixt:num-word-ten">1.2</ix:nonFraction>
+<ix:nonFraction id="f8" name="ex:chainnum" contextRef="c1" unitRef="u1" decimals="2" format="ixt:num-dot-decimal" continuedAt="gone">1.5</ix:nonFraction>
+<ix:nonFraction id="f9" name="ex:nilval" contextRef="c1" unitRef="u1" xsi:nil="true" />
+<ix:nonFraction id="f10" name="ex2:amount" contextRef="c1" unitRef="u1" decimals="0">5</ix:nonFraction>
+<ix:nonFraction id="f11" name="ex:pack" contextRef="c1" unitRef="u3" decimals="0" scale="0">7</ix:nonFraction>
+
+<ix:nonNumeric id="n1" name="ex:note" contextRef="c1" continuedAt="tail1">服务<ix:exclude>脚注</ix:exclude></ix:nonNumeric>
+<ix:continuation id="tail1" continuedAt="tail2">说明</ix:continuation>
+<ix:continuation id="tail2">续</ix:continuation>
+<ix:nonNumeric id="n2" name="ex:note" contextRef="c1" continuedAt="tail1">重复引用</ix:nonNumeric>
+<ix:nonNumeric id="n3" name="ex:broken" contextRef="c1" continuedAt="missing-node">断链</ix:nonNumeric>
+</body>
+</html>
